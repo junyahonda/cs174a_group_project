@@ -10,7 +10,7 @@ class Fishing_Game extends Scene_Component
                   // beginning look at sign
         //context.globals.graphics_state.camera_transform = Mat4.look_at( Vec.of( 0, 5, 40, 1030 ), Vec.of( 0, 100, 0 ), Vec.of( 0, 10, 0 ) );
         context.globals.graphics_state.camera_transform = Mat4.look_at( Vec.of( 0,5,40,1), Vec.of( 0,0,0 ), Vec.of( 0,1,0 ) );
-
+        
         const r = context.width/context.height;
         context.globals.graphics_state.projection_transform = Mat4.perspective( Math.PI/4, r, .1, 1000 );
 
@@ -809,7 +809,7 @@ class Fishing_Game extends Scene_Component
           // *************************************************************************
       draw_the_enviroment(graphics_state, t) {
             
-           //  this.shapes.tree.draw( graphics_state, this.tree_Matrix, this.materials.tree);
+        //this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix, this.materials.tree);
         //this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix2, this.materials.tree_stem);
        // this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix2, this.materials.tree_leaves);                               
 
@@ -820,7 +820,9 @@ class Fishing_Game extends Scene_Component
         //this.shapes.rock.draw( graphics_state, this.rock_Matrix, this.materials.rock);
 
         //background
-        this.shapes.plane.draw( graphics_state, this.backdrop_Matrix, this.materials.pond.override( { color: Color.of( 0, 0, 0, 1), ambient: .8}));
+        //this.shapes.plane.draw( graphics_state, this.backdrop_Matrix, this.materials.pond.override( { color: Color.of( .635, .806, .850, 1), ambient: 1}));
+        //this.shapes.plane.draw(graphics_state, Mat4.identity().times(Mat4.translation([0,0,-5])).times(Mat4.scale([100,100,100])), this.materials.red.override({color: Color.of(.1,.5,.1,1), ambient: 1}));
+        //this.shapes.rock.draw( graphics_state, Mat4.identity(), this.materials.rock);
 
         this.people_Mat = Mat4.identity();
          for(var i = 0; i < 10; i+=1)
@@ -848,9 +850,22 @@ class Fishing_Game extends Scene_Component
                         .times(Mat4.translation([i/3,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
                         this.materials.red.override( { color: Color.of( 0,1,0,1 )}));
                 
-
-         
+                //begin white        
+                for (var j = -10; j < 17; j++)
+                {       
+                    if (i < 9)
+                    {
+                    this.shapes.people.draw(graphics_state, this.people_Mat
+                    
+                    .times(Mat4.translation([j/1.2 - 2,-10,0]))
+                    .times(Mat4.rotation(-Math.PI/2, Vec.of(0,0,1)))
+                    .times(Mat4.translation([i/3,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .5,.5,.5,1 )}));
+                    }
+                }
+                //end white
                 //begin right green
+               
                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
                this.materials.red.override( { color: Color.of( .5,.4,0,1 )}));
@@ -1052,13 +1067,7 @@ class Fishing_Game extends Scene_Component
 
             }
          
-          for(var a = 0; a < 10; a+=1)
-          {
-                //  for (var b = 0; b < 15; b+=1)
-                 // {
-                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0))).times(Mat4.rotation(-Math.PI/2, Vec.of(0,0,1))).times(Mat4.translation([a/3 + 12,2,a/2])).times(Mat4.scale([.5,.5,.5])), this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
-                 // }
-            }
+
         
         
       }
