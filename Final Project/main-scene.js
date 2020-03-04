@@ -817,16 +817,240 @@ class Fishing_Game extends Scene_Component
         //this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix1, this.materials.tree_stem);
         //this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix1, this.materials.tree_leaves.override( { color: Color.of( .3,.6,.2,1 )}));
 
-        this.shapes.rock.draw( graphics_state, this.rock_Matrix, this.materials.rock);
+        //this.shapes.rock.draw( graphics_state, this.rock_Matrix, this.materials.rock);
 
         //background
         this.shapes.plane.draw( graphics_state, this.backdrop_Matrix, this.materials.pond.override( { color: Color.of( 0, 0, 0, 1), ambient: .8}));
 
         this.people_Mat = Mat4.identity();
          for(var i = 0; i < 10; i+=1)
-         {
-               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0))).times(Mat4.translation([i/3 + 12,2,i/2])).times(Mat4.scale([.5,.5,.5])), this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
-         }
+            {
+            //begin top blue straight section
+                for (var j = -10; j < 17; j++)
+                {       
+                    if (i < 9)
+                    {
+                    this.shapes.people.draw(graphics_state, this.people_Mat
+                    .times(Mat4.translation([j/1.2,0,0]))
+                    .times(Mat4.rotation(Math.PI/2, Vec.of(0,0,1)))
+                    .times(Mat4.translation([i/3 + 12 ,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .1,.2,.55,1 )}));
+                    }
+
+                }
+                //end top blue section
+
+                //original neon green
+                    this.shapes.people.draw(graphics_state, this.people_Mat
+                        .times(Mat4.translation([-9,12,0]))
+                        .times(Mat4.rotation(Math.PI/2, Vec.of(0,0,1)))
+                        .times(Mat4.rotation(Math.PI/4, Vec.of(0,0,1)))
+                        .times(Mat4.translation([i/3,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                        this.materials.red.override( { color: Color.of( 0,1,0,1 )}));
+                
+
+         
+                //begin right green
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .5,.4,0,1 )}));
+
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+               .times(Mat4.rotation(Math.PI/4.4, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override(  { color: Color.of( .1,.2,.55,1 )}));
+
+               if (i > 7)
+               {
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                .times(Mat4.rotation(Math.PI/4.4, 
+                 Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/12, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override(  { color: Color.of( .1,.2,.55,1 )}));
+               }
+               
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+               .times(Mat4.rotation(Math.PI/4.7, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override(  { color: Color.of( .1,.2,.55,1 )}));
+               if (i < 6)
+               {
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/30, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+               
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/16, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+               
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/11, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+               .times(Mat4.rotation(Math.PI/9, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+               .times(Mat4.rotation(Math.PI/8, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+               .times(Mat4.rotation(Math.PI/7, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+               .times(Mat4.rotation(Math.PI/6, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+               
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+               .times(Mat4.rotation(Math.PI/5.3, 
+                Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+               .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+               this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+               
+ 
+
+               }
+               
+               else if (i < 9)
+               {
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/40, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/20, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/15, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/12, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                    .times(Mat4.rotation(Math.PI/10, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                .times(Mat4.rotation(Math.PI/8.5, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                .times(Mat4.rotation(Math.PI/7.5, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                .times(Mat4.rotation(Math.PI/6.6, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                .times(Mat4.rotation(Math.PI/6, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                .times(Mat4.rotation(Math.PI/5.5, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.translation([.2,.4,0]))
+                .times(Mat4.rotation(Math.PI/5, 
+                    Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+
+                
+                }
+                else 
+                {
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/45, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/25, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/18, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/14, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/12, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/10, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/9, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/8, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/7.2, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/6.5, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/6, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/5.5, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                    this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/5, 
+                        Vec.of(0,0,1))).times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0)))
+                    .times(Mat4.translation([i/3 + 12,2,i/2 + Math.random() % .2])).times(Mat4.scale([.5,.5,.5])), 
+                    this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                }
+
+                //end right green
+
+            }
          
           for(var a = 0; a < 10; a+=1)
           {
