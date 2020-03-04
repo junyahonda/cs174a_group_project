@@ -269,7 +269,7 @@ class Fishing_Game extends Scene_Component
 
     move_left()
      {
-        if((this.crosshair_Matrix[0][3] - 0.2) * (this.crosshair_Matrix[0][3] - 0.2) + (this.crosshair_Matrix[1][3]) * (this.crosshair_Matrix[1][3]) < 72.25 
+        if((this.crosshair_Matrix[0][3] - 0.2)  > -13
                 && !this.catching)
         {
             this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([-0.2, 0, 0]));       
@@ -278,7 +278,7 @@ class Fishing_Game extends Scene_Component
 
     move_right()
      {
-        if((this.crosshair_Matrix[0][3] + 0.2) * (this.crosshair_Matrix[0][3] + 0.2) + (this.crosshair_Matrix[1][3]) * (this.crosshair_Matrix[1][3]) < 72.25 
+        if((this.crosshair_Matrix[0][3] + 0.2)  < 13
                          && !this.catching)
         {
             this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([0.2, 0, 0]));
@@ -287,7 +287,7 @@ class Fishing_Game extends Scene_Component
 
     move_up()
      {
-        if((this.crosshair_Matrix[0][3]) * (this.crosshair_Matrix[0][3]) + (this.crosshair_Matrix[1][3] + 0.2) * (this.crosshair_Matrix[1][3] + 0.2) < 72.25 && !this.catching)
+        if((this.crosshair_Matrix[1][3] + 0.2) < 2 && !this.catching)
         {
             this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([0, 0.2, 0]));
         }          
@@ -295,7 +295,7 @@ class Fishing_Game extends Scene_Component
 
     move_down()
      {
-        if((this.crosshair_Matrix[0][3]) * (this.crosshair_Matrix[0][3]) + (this.crosshair_Matrix[1][3] - 0.2) * (this.crosshair_Matrix[1][3] - 0.2) < 72.25 && !this.catching)
+        if((this.crosshair_Matrix[1][3] - 0.2) > -18 && !this.catching)
         {
             this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([0, -0.2, 0]));
         }           
@@ -822,12 +822,19 @@ class Fishing_Game extends Scene_Component
         //background
         this.shapes.plane.draw( graphics_state, this.backdrop_Matrix, this.materials.pond.override( { color: Color.of( 0, 0, 0, 1), ambient: .8}));
 
- 
+        this.people_Mat = Mat4.identity();
          for(var i = 0; i < 10; i+=1)
          {
-               this.shapes.people.draw(graphics_state, this.tree_Matrix, this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
-         
+               this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0))).times(Mat4.translation([i/3 + 12,2,i/2])).times(Mat4.scale([.5,.5,.5])), this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
          }
+         
+          for(var a = 0; a < 10; a+=1)
+          {
+                //  for (var b = 0; b < 15; b+=1)
+                 // {
+                this.shapes.people.draw(graphics_state, this.people_Mat.times(Mat4.rotation(Math.PI/8, Vec.of(1,0,0))).times(Mat4.rotation(-Math.PI/2, Vec.of(0,0,1))).times(Mat4.translation([a/3 + 12,2,a/2])).times(Mat4.scale([.5,.5,.5])), this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+                 // }
+            }
         
         
       }
