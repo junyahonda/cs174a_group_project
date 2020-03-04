@@ -44,6 +44,7 @@ class Fishing_Game extends Scene_Component
                          rock:      new Shape_From_File( "assets/Rock.obj"),
                          circle:    new Circle(),
                          mText:      new Text_Line(35),
+                         people:  new Shape_From_File( "assets/peeps.obj"),
                        }
         this.submit_shapes( context, shapes );
         this.shapes.mText.set_string("Nice!");
@@ -735,6 +736,7 @@ class Fishing_Game extends Scene_Component
 
               //FISHING ROD
               //this.shapes.sphere6.draw( graphics_state, this.sphere1_Matrix, this.materials.red);
+              this.sphere1_Matrix = this.sphere1_Matrix.times(Mat4.translation([0,8,0]));
               this.shapes.box.draw( graphics_state, this.sphere1_Matrix, this.materials.car);
               //this.shapes.sphere6.draw( graphics_state, this.sphere2_Matrix, this.materials.red);
               //this.shapes.torus.draw( graphics_state, this.torus1_Matrix, this.materials.white);
@@ -808,18 +810,24 @@ class Fishing_Game extends Scene_Component
       draw_the_enviroment(graphics_state, t) {
             
            //  this.shapes.tree.draw( graphics_state, this.tree_Matrix, this.materials.tree);
-        this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix2, this.materials.tree_stem);
-        this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix2, this.materials.tree_leaves);                               
+        //this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix2, this.materials.tree_stem);
+       // this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix2, this.materials.tree_leaves);                               
 
            //  this.shapes.tree.draw( graphics_state, this.tree_Matrix, this.materials.tree);
-        this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix1, this.materials.tree_stem);
-        this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix1, this.materials.tree_leaves.override( { color: Color.of( .3,.6,.2,1 )}));
+        //this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix1, this.materials.tree_stem);
+        //this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix1, this.materials.tree_leaves.override( { color: Color.of( .3,.6,.2,1 )}));
 
         this.shapes.rock.draw( graphics_state, this.rock_Matrix, this.materials.rock);
 
         //background
         this.shapes.plane.draw( graphics_state, this.backdrop_Matrix, this.materials.pond.override( { color: Color.of( 0, 0, 0, 1), ambient: .8}));
 
+ 
+         for(var i = 0; i < 10; i+=1)
+         {
+               this.shapes.people.draw(graphics_state, this.tree_Matrix, this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+         
+         }
         
         
       }
