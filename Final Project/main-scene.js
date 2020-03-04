@@ -44,6 +44,7 @@ class Fishing_Game extends Scene_Component
                          rock:      new Shape_From_File( "assets/Rock.obj"),
                          circle:    new Circle(),
                          mText:      new Text_Line(35),
+                         people:  new Shape_From_File( "assets/peeps.obj"),
                        }
         this.submit_shapes( context, shapes );
         this.shapes.mText.set_string("Nice!");
@@ -198,7 +199,7 @@ class Fishing_Game extends Scene_Component
          
         this.pond_Matrix = Mat4.identity();
         this.pond_Matrix = this.pond_Matrix.times( Mat4.translation([0, 0, -0.9]))
-                                           .times( Mat4.scale([7, 7, .01]));
+                                           .times( Mat4.scale([11, 20, .1]));
         
         this.ground_Matrix = Mat4.identity();
         this.ground_Matrix = this.ground_Matrix.times( Mat4.translation([0, 0, 1]))
@@ -635,7 +636,7 @@ class Fishing_Game extends Scene_Component
               // Helper function to draw the fish - Scene 1
               graphics_state.camera_transform =  Mat4.look_at( Vec.of( 0,5,40,1), Vec.of( 0,0,0 ), Vec.of( 0,1,0 ) );
 
-              this.draw_the_fish(graphics_state, t)
+              //this.draw_the_fish(graphics_state, t)
               //transforming camera to light source
 
               this.scratchpad_context.drawImage( this.webgl_manager.canvas, 0, 0, 256, 256 );
@@ -655,7 +656,7 @@ class Fishing_Game extends Scene_Component
 
               this.gl.depthMask(false);
 
-              this.draw_the_fish(graphics_state, t)
+              //this.draw_the_fish(graphics_state, t)
 
               this.gl.depthMask(true);
               
@@ -735,6 +736,7 @@ class Fishing_Game extends Scene_Component
 
               //FISHING ROD
               //this.shapes.sphere6.draw( graphics_state, this.sphere1_Matrix, this.materials.red);
+              this.sphere1_Matrix = this.sphere1_Matrix.times(Mat4.translation([0,8,0]));
               this.shapes.box.draw( graphics_state, this.sphere1_Matrix, this.materials.car);
               //this.shapes.sphere6.draw( graphics_state, this.sphere2_Matrix, this.materials.red);
               //this.shapes.torus.draw( graphics_state, this.torus1_Matrix, this.materials.white);
@@ -752,7 +754,7 @@ class Fishing_Game extends Scene_Component
         //this.shapes.pond.draw( graphics_state, this.pond_Matrix.times(Mat4.scale([1.05,1.05,1.05])), this.materials.race_tack);
         this.shapes.plane.draw( graphics_state, this.pond_Matrix.times(Mat4.scale([1.05,1.05,1.05])), this.materials.race_track);
 
-        this.shapes.torus.draw( graphics_state, this.ground_Matrix, this.materials.ground);
+        //this.shapes.torus.draw( graphics_state, this.ground_Matrix, this.materials.ground);
 
         this.draw_the_enviroment(graphics_state, t);
       }
@@ -808,89 +810,25 @@ class Fishing_Game extends Scene_Component
       draw_the_enviroment(graphics_state, t) {
             
            //  this.shapes.tree.draw( graphics_state, this.tree_Matrix, this.materials.tree);
-        this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix2, this.materials.tree_stem);
-        this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix2, this.materials.tree_leaves);                               
+        //this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix2, this.materials.tree_stem);
+       // this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix2, this.materials.tree_leaves);                               
 
            //  this.shapes.tree.draw( graphics_state, this.tree_Matrix, this.materials.tree);
-        this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix1, this.materials.tree_stem);
-        this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix1, this.materials.tree_leaves.override( { color: Color.of( .3,.6,.2,1 )}));
+        //this.shapes.tree_stem.draw( graphics_state, this.tree_Matrix1, this.materials.tree_stem);
+        //this.shapes.tree_leaves.draw( graphics_state, this.tree_Matrix1, this.materials.tree_leaves.override( { color: Color.of( .3,.6,.2,1 )}));
 
         this.shapes.rock.draw( graphics_state, this.rock_Matrix, this.materials.rock);
 
         //background
         this.shapes.plane.draw( graphics_state, this.backdrop_Matrix, this.materials.pond.override( { color: Color.of( 0, 0, 0, 1), ambient: .8}));
 
-        for(var i = -33; i < -2; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([10 + i/7 + 0.2 * Math.sin(0.5 * t),-3.5,i])).times(Mat4.scale([10,10,10])), this.materials.tree_leaves.override( { color: Color.of( .165,.298,0,1 )}));
-        }
-        for(var i = -34; i < -2; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([12 + i/5 + 0.2 * Math.sin(t),-3.5,i])).times(Mat4.scale([10,16,10])), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        }
-        for(var i = -35; i < -2; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([12 + i/5,-3.5,i])).times(Mat4.scale([10,9,10])), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-        }
-
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([10,-3.5,13])).times(Mat4.scale([10,10,10])), this.materials.tree_leaves.override( { color: Color.of( .165,.298,0,1 )}));
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([12,-3.5,13])).times(Mat4.scale([10,9,10])), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([13,-3.5,13.5])).times(Mat4.scale([10,9,10])), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([12,-3.5,13])).times(Mat4.scale([10,16,10])), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([11,-5,13])).times(Mat4.scale([10,16,10])), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
+ 
+         for(var i = 0; i < 10; i+=1)
+         {
+               this.shapes.people.draw(graphics_state, this.tree_Matrix, this.materials.red.override( { color: Color.of( .165,.298,0,1 )}));
+         
+         }
         
-        for(var i = 14; i < 40; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([10 + i/7 + 0.2 * Math.sin(0.5 * t),-3.5,i])).times(Mat4.scale([10,10,10])), this.materials.tree_leaves.override( { color: Color.of( .165,.298,0,1 )}));
-        }
-        for(var i = 15; i < 40; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([12 + i/5 + 0.2 * Math.sin(t),-3.5,i])).times(Mat4.scale([10,16,10])), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        }
-        for(var i = 16; i < 40; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([12 + i/5,-3.5,i])).times(Mat4.scale([10,9,10])), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-        }
-        
-        for(var i = 0; i < 9; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-5 + i,-3.5,-5 + i/5 + 0.2 * Math.sin(t)])).times(Mat4.scale([10,16,10])).times(Mat4.rotation(Math.PI/2, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        }
-        for(var i = -1; i < 8; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-5 + i,-3.5,-5 + i/7 + 0.2 * Math.sin(0.5* t)])).times(Mat4.scale([10,10,10])).times(Mat4.rotation(Math.PI/2, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .165,.298,0,1 )}));
-        }
-        for(var i = -2; i < 7; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-5 + i,-3.5,-5 + i/5])).times(Mat4.scale([10,9,10])).times(Mat4.rotation(Math.PI/2, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-        }
-        for(var i = 21.5; i < 36; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-5 + i,-3.5,-5 + i/5 + 0.2 * Math.sin(t)])).times(Mat4.scale([10,16,10])).times(Mat4.rotation(Math.PI/2, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        }
-        for(var i = 24; i < 36; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-5 + i,-3.5,-5 + i/7 + 0.2 * Math.sin(0.5* t)])).times(Mat4.scale([10,10,10])).times(Mat4.rotation(Math.PI/2, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .165,.298,0,1 )}));
-        }
-        for(var i = 23; i < 36; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-5 + i,-3.5,-5 + i/5])).times(Mat4.scale([10,9,10])).times(Mat4.rotation(Math.PI/2, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-        }
-
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([2.5,-3.5, 0])).times(Mat4.scale([10,16,10])).times(Mat4.rotation(Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-
-        for(var i = 2; i < 15; i+=3)
-        {
-              this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([2 - i,-3.5, 0 + i/5])).times(Mat4.scale([10,9,10])).times(Mat4.rotation(Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-        }
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([25,-3.5, 0])).times(Mat4.scale([10,16,10])).times(Mat4.rotation(Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([25,-3.5, 0])).times(Mat4.scale([10,9,10])).times(Mat4.rotation(Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([15,-3.5, 0])).times(Mat4.scale([10,16,10])).times(Mat4.rotation(3 * Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([16,-3.5, 0])).times(Mat4.scale([10,9,10])).times(Mat4.rotation(3 * Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
-
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-7,-3.5, 0])).times(Mat4.scale([10,16,10])).times(Mat4.rotation(3 * Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .33,.60,0,1 )}));
-        this.shapes.grass.draw( graphics_state, this.tree_Matrix.times(Mat4.translation([-8,-3.5, 0])).times(Mat4.scale([10,9,10])).times(Mat4.rotation(3 * Math.PI/4, Vec.of(0,1,0))), this.materials.tree_leaves.override( { color: Color.of( .67,.90,.40,1 )}));
         
       }
 
@@ -1457,7 +1395,6 @@ class Texture_Scroll_X extends Phong_Shader
           vec4 tempVector = vec4(mVector, 0, 0); 
           tempVector = tempVector + vec4(1., 1., 0., 1.); 
           tempVector = mMatrix * tempVector; 
-
           vec4 tex_color = texture2D( texture, tempVector.xy );                         // Sample the texture image in the correct place.
                                                                                       // Compute an initial (ambient) color:
           if( USE_TEXTURE ) gl_FragColor = vec4( ( tex_color.xyz + shapeColor.xyz ) * ambient, shapeColor.w * tex_color.w ); 
@@ -1478,7 +1415,6 @@ class Texture_Rotate extends Phong_Shader
             return;
           }                                 // If we get this far, calculate Smooth "Phong" Shading as opposed to Gouraud Shading.
                                             // Phong shading is not to be confused with the Phong Reflection Model.
-
           vec2 mVector = f_tex_coord; 
           mat4 mMatrix = mat4(cos( mod((6.28) * .25 * animation_time, 44. * 3.14)), sin( mod((6.28) * .25 * animation_time, 44. * 3.14)), 0, 0, -sin( mod((6.28) * .25 * animation_time, 44. * 3.14)), cos( mod((6.28) * .25 * animation_time, 44. * 3.14)), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
           vec4 tempVector = vec4(mVector, 0, 0); 
@@ -1494,5 +1430,3 @@ class Texture_Rotate extends Phong_Shader
         }`;
     }
 }
-
-
