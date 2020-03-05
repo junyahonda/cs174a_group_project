@@ -277,21 +277,21 @@ class Fishing_Game extends Scene_Component
 
     // Junya car movement
     //[0][3] is x, [1][3] is y, 
-    move_natural(car_mat)
+    move_natural()
     {
-        if(car_mat[0][3] > 9)
+        let x = this.player_matrix[0][3];
+        let y = this.player_matrix[1][3];
+        if(x > 6.5 || x < -6.5)
         {
-            car_mat = car_mat.times(Mat4.rotation(Math.PI / 16, [0,0,1])).times(Mat4.translation([.2,0,0]));
-        }
-        
-        else if(car_mat[0][3] < -9)
-        {
-            car_mat = car_mat.times(Mat4.rotation(Math.PI / 16, [0,0,1])).times(Mat4.translation([.2,0,0]));
+            //this.player_matrix = this.player_matrix.times(Mat4.translation([x -3, 0,0])).times(Mat4.rotation(Math.PI/30, [0,0,1])).times(Mat4.translation([-(x-3), 0, 0]));
+            // let dist = Math.sqrt(Math.pow(this.player_matrix[0][3], 2)) / 50;
+            // this.player_matrix = this.player_matrix.times(Mat4.translation([-dist,0,0])).times(Mat4.rotation(Math.PI / 50, [0,0,1]));
+            this.player_matrix = this.player_matrix.times(Mat4.rotation(Math.PI/50, [0,0,1])).times(Mat4.translation([-.6,0,0]));
         }
 
-        else if(car_mat[1][3] > 0)
+        else
         {
-            car_mat = car_mat.times(Mat4.translation([.2,0,0]));
+            this.player_matrix = this.player_matrix.times(Mat4.translation([-.4,0,0]));
         }
     }
 
@@ -766,6 +766,7 @@ class Fishing_Game extends Scene_Component
               //this.shapes.sphere6.draw( graphics_state, this.player_matrix, this.materials.red);
               //current
               //move_natural(this.player_matrix);
+              this.move_natural();
               this.shapes.box.draw( graphics_state, this.player_matrix, this.materials.car);    
               this.shapes.box.draw( graphics_state, this.enemy1_matrix, this.materials.car);
               this.shapes.box.draw( graphics_state, this.enemy2_matrix, this.materials.car);
