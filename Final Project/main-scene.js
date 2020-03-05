@@ -94,12 +94,20 @@ class Fishing_Game extends Scene_Component
         //rod
         
         this.crosshair_Matrix = Mat4.identity().times( Mat4.scale([1, 1, .1]));
-        this.sphere1_Matrix = Mat4.identity().times( Mat4.scale([100, 100, 100]));
+        this.player_matrix = Mat4.identity().times( Mat4.translation([0, 8, 0])).times( Mat4.scale([1,1,.01]));
         this.sphere2_Matrix = Mat4.identity().times( Mat4.scale([1, 1, .1]));
         this.torus1_Matrix = Mat4.identity().times( Mat4.scale([1, 1, .1]));
         this.torus2_Matrix = Mat4.identity().times( Mat4.scale([1, 1, .1]));
         this.cylinder_Matrix = Mat4.identity().times( Mat4.scale([1, 1, .1]));
         //this.car_Matrix = Mat4.identity().times( Mat4.scale([2, 2, 2]));
+
+        
+        this.enemy1_matrix = Mat4.identity().times( Mat4.translation([0, 7, 0])).times( Mat4.scale([.5, .5, .01]));
+        this.enemy2_matrix = Mat4.identity().times( Mat4.translation([0, 6, 0])).times( Mat4.scale([.5, .5, .01]));
+        this.enemy3_matrix = Mat4.identity().times( Mat4.translation([0, 5, 0])).times( Mat4.scale([.5, .5, .01]));
+        this.enemy4_matrix = Mat4.identity().times( Mat4.translation([0, 9, 0])).times( Mat4.scale([.5, .5, .01]));
+        this.enemy5_matrix = Mat4.identity().times( Mat4.translation([0, 10, 0])).times( Mat4.scale([.5, .5, .01]));
+        
         //end rod
 
        
@@ -267,37 +275,57 @@ class Fishing_Game extends Scene_Component
                 
       }
 
+    // Junya car movement
+    //[0][3] is x, [1][3] is y, 
+    move_natural(car_mat)
+    {
+        if(car_mat[0][3] > 9)
+        {
+            car_mat = car_mat.times(Mat4.rotation(Math.PI / 16, [0,0,1])).times(Mat4.translation([.2,0,0]));
+        }
+        
+        else if(car_mat[0][3] < -9)
+        {
+            car_mat = car_mat.times(Mat4.rotation(Math.PI / 16, [0,0,1])).times(Mat4.translation([.2,0,0]));
+        }
+
+        else if(car_mat[1][3] > 0)
+        {
+            car_mat = car_mat.times(Mat4.translation([.2,0,0]));
+        }
+    }
+
     move_left()
      {
-        if((this.crosshair_Matrix[0][3] - 0.2)  > -13
+        if((this.player_matrix[0][3] - 0.2)  > -13
                 && !this.catching)
         {
-            this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([-0.2, 0, 0]));       
+            this.player_matrix = this.player_matrix.times( Mat4.translation([-0.2, 0, 0]));       
         } 
      }
 
     move_right()
      {
-        if((this.crosshair_Matrix[0][3] + 0.2)  < 13
+        if((this.player_matrix[0][3] + 0.2)  < 13
                          && !this.catching)
         {
-            this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([0.2, 0, 0]));
+            this.player_matrix = this.player_matrix.times( Mat4.translation([0.2, 0, 0]));
         }           
      }
 
     move_up()
      {
-        if((this.crosshair_Matrix[1][3] + 0.2) < 2 && !this.catching)
+        if((this.player_matrix[1][3] + 0.2) < 2 && !this.catching)
         {
-            this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([0, 0.2, 0]));
+            this.player_matrix = this.player_matrix.times( Mat4.translation([0, 0.2, 0]));
         }          
      }
 
     move_down()
      {
-        if((this.crosshair_Matrix[1][3] - 0.2) > -18 && !this.catching)
+        if((this.player_matrix[1][3] - 0.2) > -18 && !this.catching)
         {
-            this.crosshair_Matrix = this.crosshair_Matrix.times( Mat4.translation([0, -0.2, 0]));
+            this.player_matrix = this.player_matrix.times( Mat4.translation([0, -0.2, 0]));
         }           
      }
      trigger_animation(graphics_state) {
@@ -664,8 +692,8 @@ class Fishing_Game extends Scene_Component
               if(!this.catching && !this.fish_is_caught)
               {
                 
-                  //this.sphere1_Matrix = this.crosshair_Matrix.times(Mat4.scale([.05, .05, 1]));
-                  this.sphere1_Matrix = this.crosshair_Matrix.times(Mat4.scale([1, 1, .01])); //Cody New
+                  //this.player_matrix = this.crosshair_Matrix.times(Mat4.scale([.05, .05, 1]));
+                  //this.player_matrix = this.crosshair_Matrix.times(Mat4.scale([1, 1, .01])); //Cody New
                   this.sphere2_Matrix = this.crosshair_Matrix.times(Mat4.scale([.05, .05, 1])).times(Mat4.translation([0, 0, 10 + 0.50 * Math.sin((6 * t) % (2 * Math.PI))]));            
                   this.torus1_Matrix = this.crosshair_Matrix.times(Mat4.scale([.07, .07, 1])).times(Mat4.translation([0, 0, 10 + 0.50 * Math.sin((6 * t) % (2 * Math.PI))]));      
                   this.torus2_Matrix = this.crosshair_Matrix.times(Mat4.scale([.08, .08, .1])).times(Mat4.translation([0, 0, 100 + 5 * Math.sin((6 * t) % (2 * Math.PI))]));          
@@ -674,13 +702,13 @@ class Fishing_Game extends Scene_Component
 
               else if(this.catching && !this.fish_is_caught)
               {
-                  if(this.sphere1_Matrix[2][3] < 1.5 && this.catching_timer >= 0)
+                  if(this.player_matrix[2][3] < 1.5 && this.catching_timer >= 0)
                   {
-                        this.sphere1_Matrix[2][3] += 0.3;
+                        this.player_matrix[2][3] += 0.3;
                   }
-                  else if(this.sphere1_Matrix[2][3] > 0 && this.catching_timer == -1)
+                  else if(this.player_matrix[2][3] > 0 && this.catching_timer == -1)
                   {
-                        this.sphere1_Matrix[2][3] -= 0.1;
+                        this.player_matrix[2][3] -= 0.1;
                   }
 
                   if(this.sphere2_Matrix[2][3] < 2.5 && this.catching_timer >= 0)
@@ -727,7 +755,7 @@ class Fishing_Game extends Scene_Component
                   {
                       this.catching_timer++;
                   }
-                  if(this.sphere1_Matrix[2][3] <= 0 && this.catching_timer == -1)
+                  if(this.player_matrix[2][3] <= 0 && this.catching_timer == -1)
                   {
                       this.catching_timer = 0;
                       this.catching = false;
@@ -735,9 +763,15 @@ class Fishing_Game extends Scene_Component
               }
 
               //FISHING ROD
-              //this.shapes.sphere6.draw( graphics_state, this.sphere1_Matrix, this.materials.red);
-              this.sphere1_Matrix = this.sphere1_Matrix.times(Mat4.translation([0,8,0]));
-              this.shapes.box.draw( graphics_state, this.sphere1_Matrix, this.materials.car);
+              //this.shapes.sphere6.draw( graphics_state, this.player_matrix, this.materials.red);
+              //current
+              //move_natural(this.player_matrix);
+              this.shapes.box.draw( graphics_state, this.player_matrix, this.materials.car);    
+              this.shapes.box.draw( graphics_state, this.enemy1_matrix, this.materials.car);
+              this.shapes.box.draw( graphics_state, this.enemy2_matrix, this.materials.car);
+              this.shapes.box.draw( graphics_state, this.enemy3_matrix, this.materials.car);
+              this.shapes.box.draw( graphics_state, this.enemy4_matrix, this.materials.car);
+              this.shapes.box.draw( graphics_state, this.enemy5_matrix, this.materials.car);
               //this.shapes.sphere6.draw( graphics_state, this.sphere2_Matrix, this.materials.red);
               //this.shapes.torus.draw( graphics_state, this.torus1_Matrix, this.materials.white);
               //this.shapes.torus.draw( graphics_state, this.torus2_Matrix, this.materials.red);
@@ -760,18 +794,18 @@ class Fishing_Game extends Scene_Component
       }
        
       caught_fish_animation(graphics_state, fish_matrix, t) {
-            if(this.sphere1_Matrix[2][3] < 2) {
+            if(this.player_matrix[2][3] < 2) {
                   fish_matrix[2][3] = fish_matrix[2][3] + .02;
                   fish_matrix = fish_matrix.times(Mat4.rotation(.004, [0, -.1, 0]));
                   this.shapes.plane.draw( graphics_state, fish_matrix, this.caught_fish_material);
 
-                  this.sphere1_Matrix[2][3] = this.sphere1_Matrix[2][3] + .02;
+                  this.player_matrix[2][3] = this.player_matrix[2][3] + .02;
                   this.sphere2_Matrix[2][3] = this.sphere2_Matrix[2][3] + .02;
                   this.torus1_Matrix[2][3] = this.torus1_Matrix[2][3] + .02;
                   this.torus2_Matrix[2][3] = this.torus2_Matrix[2][3] + .02;
                   this.cylinder_Matrix[2][3] = this.cylinder_Matrix[2][3] + .02;
             }
-            if(this.sphere1_Matrix[2][3] > 2) {
+            if(this.player_matrix[2][3] > 2) {
 //                         this.fish_is_caught = false;
 //                   this.caught_fish_matrix[0][3] = 100;
 //                   this.caught_fish_matrix[1][3] = 100;
