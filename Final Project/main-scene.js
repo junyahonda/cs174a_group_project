@@ -9,7 +9,8 @@ class Fishing_Game extends Scene_Component
 
                   // beginning look at sign
         //context.globals.graphics_state.camera_transform = Mat4.look_at( Vec.of( 0, 5, 40, 1030 ), Vec.of( 0, 100, 0 ), Vec.of( 0, 10, 0 ) );
-        context.globals.graphics_state.camera_transform = Mat4.look_at( Vec.of( 0,5,40,1), Vec.of( 0,0,0 ), Vec.of( 0,1,0 ) );
+        context.globals.graphics_state.camera_transform = Mat4.look_at( Vec.of( 0, -5, 1030 ), Vec.of( 0, 100, 0 ), Vec.of( 0, 10, 0 ) );
+        //context.globals.graphics_state.camera_transform = Mat4.look_at( Vec.of( 0,5,40,1), Vec.of( 0,0,0 ), Vec.of( 0,1,0 ) );
         
         const r = context.width/context.height;
         context.globals.graphics_state.projection_transform = Mat4.perspective( Math.PI/4, r, .1, 1000 );
@@ -109,6 +110,9 @@ class Fishing_Game extends Scene_Component
         this.enemy5_matrix = Mat4.identity().times( Mat4.translation([0, 10, 0])).times( Mat4.scale([.5, .5, .01]));
         
         //end rod
+
+        //toggle peopel
+        this.toggle_people = false;
 
        
         
@@ -268,7 +272,12 @@ class Fishing_Game extends Scene_Component
                                                                   this.begin_animation = true;
                                                                   this.t_reset = false;
                                                                 });
-        this.key_triggered_button( "Catch Fish", [ ";" ], () => { if(!this.fish_is_caught && !this.catching) this.catch_fish() } );              
+        this.key_triggered_button( "Catch Fish", [ ";" ], () => { if(!this.fish_is_caught && !this.catching) this.catch_fish() } );         
+        
+        this.key_triggered_button( "Toggle People", ["t"], () => {this.toggle_people = !this.toggle_people});
+        
+        this.key_triggered_button( "Move Car Left", ["a"], () => {this.player_move_left()});
+        this.key_triggered_button( "Move Car Right", ["d"], () => {this.player_move_right()});
 
 //         this.result_img = this.control_panel.appendChild( Object.assign( document.createElement( "img" ), 
 //                 { style:"width:200px; height:" + 200 * this.aspect_ratio + "px" } ) );
@@ -281,19 +290,44 @@ class Fishing_Game extends Scene_Component
     {
         let x = this.player_matrix[0][3];
         let y = this.player_matrix[1][3];
-        if(x > 6.5 || x < -6.5)
+        if(x > 6.5 || x < -6.5) //curvy part
         {
-            //this.player_matrix = this.player_matrix.times(Mat4.translation([x -3, 0,0])).times(Mat4.rotation(Math.PI/30, [0,0,1])).times(Mat4.translation([-(x-3), 0, 0]));
-            // let dist = Math.sqrt(Math.pow(this.player_matrix[0][3], 2)) / 50;
-            // this.player_matrix = this.player_matrix.times(Mat4.translation([-dist,0,0])).times(Mat4.rotation(Math.PI / 50, [0,0,1]));
-            this.player_matrix = this.player_matrix.times(Mat4.rotation(Math.PI/50, [0,0,1])).times(Mat4.translation([-.6,0,0]));
+            if(Math.hypot(x, y) < 17)
+            {
+                this.player_matrix = this.player_matrix.times(Mat4.rotation(Math.PI/40, [0,0,1])).times(Mat4.translation([-.6,0,0]));
+            }
         }
 
-        else
+        else //straight part
         {
-            this.player_matrix = this.player_matrix.times(Mat4.translation([-.4,0,0]));
+            if( y > -10 && y < 13)
+            {
+                this.player_matrix = this.player_matrix.times(Mat4.translation([-.4,0,0]));
+            }
         }
     }
+
+    player_move_left()
+    {
+        let x = this.player_matrix[0][3];
+        let y = this.player_matrix[1][3];
+        if(Math.hypot(x, y) < 17)
+        {
+            this.player_matrix = this.player_matrix.times(Mat4.translation([0, -.3,0]));
+        }
+        
+    }
+
+    player_move_right()
+    {
+        let x = this.player_matrix[0][3];
+        let y = this.player_matrix[1][3];
+        if(Math.hypot(x, y) < 17)
+        {
+            this.player_matrix = this.player_matrix.times(Mat4.translation([0, .3,0]));
+        }
+    }
+
 
     move_left()
      {
@@ -618,14 +652,14 @@ class Fishing_Game extends Scene_Component
         if(this.beginning_animation && !this.ending_animation) {
               this.menu.play();
               if(!this.begin_animation)
-                  //graphics_state.camera_transform = Mat4.look_at( Vec.of( 0, -5, 1030 ), Vec.of( 0, 100, 0 ), Vec.of( 0, 10, 0 ) );
+                  graphics_state.camera_transform = Mat4.look_at( Vec.of( 0, -5, 1030 ), Vec.of( 0, 100, 0 ), Vec.of( 0, 10, 0 ) );
                   //graphics_state.camera_transform = Mat4.look_at( Vec.of( 0,5,40,1), Vec.of( 0,0,0 ), Vec.of( 0,1,0 ) );
-                  {
-                    if(!this.zoom_animation)
-                    graphics_state.camera_transform = Mat4.look_at( Vec.of( 0, -20, 15 ), Vec.of( 0,0,0 ), Vec.of( 0,10,0 ) );
-                else 
-                    graphics_state.camera_transform = this.storedCamera;
-                  }
+                //   {
+                //     if(!this.zoom_animation)
+                //     graphics_state.camera_transform = Mat4.look_at( Vec.of( 0, -20, 15 ), Vec.of( 0,0,0 ), Vec.of( 0,10,0 ) );
+                // else 
+                //     graphics_state.camera_transform = this.storedCamera;
+                //   }
               this.shapes.plane.draw(graphics_state, this.sign_Matrix, this.materials.start_sign);
               if(this.begin_animation)
               {
@@ -787,11 +821,16 @@ class Fishing_Game extends Scene_Component
 
         // Draw flattened blue sphere for temporary pond:
         //this.shapes.pond.draw( graphics_state, this.pond_Matrix.times(Mat4.scale([1.05,1.05,1.05])), this.materials.race_tack);
-        this.shapes.plane.draw( graphics_state, this.pond_Matrix.times(Mat4.scale([1.05,1.05,1.05])), this.materials.race_track);
+        this.shapes.plane.draw( graphics_state, this.pond_Matrix.times(Mat4.scale([1.50,1.25,1.00])), this.materials.race_track);
 
         //this.shapes.torus.draw( graphics_state, this.ground_Matrix, this.materials.ground);
 
-        this.draw_the_enviroment(graphics_state, t);
+        // uncomment to see people
+        if(this.toggle_people)
+        {
+            this.draw_the_enviroment(graphics_state, t);
+        }
+        
       }
        
       caught_fish_animation(graphics_state, fish_matrix, t) {
